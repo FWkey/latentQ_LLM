@@ -23,6 +23,16 @@ this demo is governed by the original [license](https://huggingface.co/meta-llam
 
 import os
 from utils.quant import QLinearA16W4
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--load_param",
+    type=str,
+    default='',
+    help=
+    "load quantized W4/A8W8 quantized model."
+)
+args = parser.parse_args()
 
 def load_quantized_param(model, ckp):
     num_layers = model.config.num_hidden_layers
@@ -93,11 +103,8 @@ def model_to_device(model, device):
             if isinstance(child, QLinearA16W4):
                 child.to(device)
 
-#model_path = "../hf_cache/llama2-13b-chat/"
-#checkpoint_dir = '../GPTQ/openllm13bw4.safetensors'
-model_path = "./hf_cache/llama2-7b/"
-#checkpoint_dir1 = './output4/llamaT7b-gpt4-2.pth'
-checkpoint_dir2 = '../GPTQ/llamaT7bw4.safetensors'
+model_path = "meta-llama/Llama-2-7b-hf"
+checkpoint_dir = args.load_param # path to checkpoint
 
 if not torch.cuda.is_available():
     DESCRIPTION += "\n<p>Running on CPU 🥶 This demo does not work on CPU.</p>"
@@ -108,7 +115,7 @@ if torch.cuda.is_available():
     model = AutoModelForCausalLM.from_pretrained(model_id)
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     #tokenizer.use_default_system_prompt = False
-    model, decoder = load_quantized_param(model,checkpoint_dir2)
+    model, decoder = load_quantized_param(model,checkpoint_dir)
     model.bfloat16()
     model_to_device(model,'cuda')
 

@@ -30,20 +30,25 @@ Llama2-7b model fine-tuned on [GPT4-LLM dataset](teknium/GPT4-LLM-Cleaned):
 
 1, Download the fine-tuned model:
 ```
-wget -c 
+wget -c https://huggingface.co/fwkidkey/llama2-7b-w4-gpt4/resolve/main/llamaT7b-gpt4-2.pth?download=true
 ```
 For users in China, you can use this link:
 ```
-wget -c 
+wget -c https://hf-mirror.com/fwkidkey/llama2-7b-w4-gpt4/resolve/main/llamaT7b-gpt4-2.pth?download=true
 ```
 
 2, run the command to generate output.
 
 ```
-python main.py /path/to/your/config/file.yaml
+python Demo2.py /path/to/your/fine-tuned/model.pth
 ```
+### Chat demo with our finetuned w4 model:
 
+![demo_our](our_chat.png)
 
+### with our original awq quantized w4 model:
+
+![demo_original](llama2_7b_chat.png)
 ## Usage
 1, Generate quantized model in PTQ directory.
 
