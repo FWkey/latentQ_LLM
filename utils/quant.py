@@ -1114,7 +1114,7 @@ class MyAdam(torch.optim.Adam):
         temp_data = torch.empty_like(pdata,dtype=torch.float32)
 
         if state["step"] > 250 and state["step"] % self.mu_updata_f == (self.mu_updata_f-1) and hasattr(p,'residual') and isinstance(p.residual,ResidualTensor):
-            optmizer_std = torch.mean((abs(exp_avg)/(denom)).view(p.residual.qshape),dim=1,keepdim=True)/(1-beta1)*step_size
+            optmizer_std = torch.mean((abs(exp_avg)/(denom)).view(p.residual.qshape),dim=1,keepdim=True)*step_size
             p.residual.update_mu(optmizer_std)
 
         if state["state1"].dtype == torch.uint8:
